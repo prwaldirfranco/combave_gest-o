@@ -1,0 +1,23 @@
+[
+    {
+        "id": "admin",
+        "usuario": "admin",
+        "senha": "123",
+        "nome": "Administrador",
+        "nivel": "admin",
+        "permissoes": [
+            "🏠 Início",
+            "👥 Membros",
+            "📅 Eventos",
+            "💒 Ministérios",
+            "💰 Financeiro",
+            "📈 Relatórios",
+            "📚 Escola Bíblica",
+            "📧 Avisos",
+            "🧑‍🏫 Discipulado",
+            "⚙️ Configurações",
+            "📝 Formulários",
+            "👤 Usuários"
+        ]
+    }
+]

@@ -1,0 +1,56 @@
+[
+    {
+        "id": "03e28edb-147d-4ec0-bdbb-14a98d7634e5",
+        "titulo": "COMBAVE",
+        "mensagem": "TESTE",
+        "autor": "CAMBAVE",
+        "destinatarios": [
+            "Todos"
+        ],
+        "tipo_destinatario": "Todos os Membros",
+        "data_envio": "2025-10-04 17:09:40.447074"
+    },
+    {
+        "id": "879c69e6-54fb-4a16-a292-59812b3e1d1a",
+        "titulo": "ACAMPADENTRO",
+        "mensagem": "http://localhost:8501/formulario_publico?id=58450c69-3176-4a0d-a6cd-dd401241919a\n\n\n",
+        "autor": "CONECT",
+        "destinatarios": [
+            "Todos"
+        ],
+        "tipo_destinatario": "Todos os Membros",
+        "data_envio": "2025-10-04 17:12:31.297863"
+    },
+    {
+        "id": "9cea5828-b1bc-46f8-8eb9-39d0dfe371d9",
+        "titulo": "teste",
+        "mensagem": "teste",
+        "autor": "teste",
+        "destinatarios": [],
+        "tipo_destinatario": "Selecionar Membros",
+        "data_envio": "2025-10-14 00:32:01.487739"
+    },
+    {
+        "id": "8f5eae1f-2e0b-4104-be2a-167fbd570928",
+        "titulo": "teste",
+        "mensagem": "teste",
+        "autor": "teste",
+        "destinatarios": [
+            "trdrt"
+        ],
+        "tipo_destinatario": "Selecionar Membros",
+        "data_envio": "2025-10-14 00:32:40.445641"
+    },
+    {
+        "id": "f2fdf815-4dd3-4a2d-877a-0e249225d57c",
+        "titulo": "teste",
+        "mensagem": "TESTE",
+        "autor": "TETSE",
+        "destinatarios": [
+            "trdrt"
+        ],
+        "tipo_destinatario": "Selecionar Membros",
+        "data_envio": "2025-10-14 01:37:39.673933",
+        "canais_usados": "E-mail: True, WhatsApp Link: False"
+    }
+]

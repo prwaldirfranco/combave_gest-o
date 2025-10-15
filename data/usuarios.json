@@ -1,0 +1,40 @@
+[
+    {
+        "id": "admin",
+        "usuario": "admin",
+        "senha": "$2b$12$AL3j2x7H4LSAHzbyxOmHRudZ8MXoXZ/W3ZamqXKI9qNxI24mMRXUK",
+        "nome": "Administrador",
+        "nivel": "admin",
+        "permissoes": [
+            "🏠 Início",
+            "👥 Membros",
+            "📅 Eventos",
+            "💒 Ministérios",
+            "💰 Financeiro",
+            "📈 Relatórios",
+            "📚 Escola Bíblica",
+            "📧 Avisos",
+            "🧑‍🏫 Discipulado",
+            "⚙️ Configurações",
+            "📝 Formulários",
+            "👤 Usuários"
+        ]
+    },
+    {
+        "id": "2412b51c-06ed-4926-b621-c43ed0982b2a",
+        "nome": "Fatima",
+        "usuario": "secretaria",
+        "senha": "123456",
+        "email": "prwaldirfranco@gmail.com",
+        "nivel": "comum",
+        "permissoes": [
+            "🏠 Início",
+            "📅 Eventos",
+            "👥 Membros",
+            "💒 Ministérios",
+            "📝 Formulários",
+            "📧 Avisos"
+        ],
+        "criado_em": "2025-10-14 00:39:52.897205"
+    }
+]

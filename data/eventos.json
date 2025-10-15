@@ -1,0 +1,52 @@
+[
+    {
+        "id": "5284f3ec-988d-4abf-a009-53a46fe9a133",
+        "titulo": "CEIA DO SENHOR",
+        "data": "2025-10-12",
+        "horario": "19:00:00",
+        "local": "COMBAVE",
+        "responsavel": "DIACONATO",
+        "descricao": "",
+        "criado_em": "2025-10-03 16:30:15.381502"
+    },
+    {
+        "id": "f1f1fe9f-8fa3-461b-8517-71fbe9f59d9e",
+        "titulo": "ENCONTRO DE ENCERRAMENTO COMBAVE",
+        "data": "2025-11-29",
+        "horario": "09:00:00",
+        "local": "SITIO SHEIKNÁ",
+        "responsavel": "EVENTOS",
+        "descricao": "TODA IGREJA E DEPATARMENTOS",
+        "criado_em": "2025-10-03 16:32:31.782825"
+    },
+    {
+        "id": "93ab8709-1728-42a5-ad29-cd51f9225c64",
+        "titulo": "CULTO CANTADO DE NATAL - ANIVERSÁRIO",
+        "data": "2025-12-21",
+        "horario": "19:00:00",
+        "local": "COMBAVE",
+        "responsavel": "IGREJA",
+        "descricao": "",
+        "criado_em": "2025-10-03 16:34:56.372387"
+    },
+    {
+        "id": "775c5e87-a5e9-4ef8-9447-9bfc8a71ccee",
+        "titulo": "CULTO DA VIRADA",
+        "data": "2025-12-31",
+        "horario": "22:00:00",
+        "local": "COMBAVE",
+        "responsavel": "DEPATARMANTOS",
+        "descricao": "TEREMOS JANTAR",
+        "criado_em": "2025-10-03 16:37:25.543496"
+    },
+    {
+        "id": "5c154eea-b3d2-426b-8686-baa12cf5c045",
+        "titulo": "VISION DAY",
+        "data": "2025-10-20",
+        "horario": "19:00:00",
+        "local": "COMBAVE",
+        "responsavel": "PASTOR",
+        "descricao": "TODOS OS MINISTÉRIOS",
+        "criado_em": "2025-10-03 16:41:46.675437"
+    }
+]
