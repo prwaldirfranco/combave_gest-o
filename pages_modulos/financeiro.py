@@ -90,7 +90,6 @@ def exibir_registro_movimento(dados, nomes_membros):
     
     with st.form("form_financeiro", clear_on_submit=True):
         
-        # Colunas 1: Tipo e Categoria
         col_tipo, col_categoria = st.columns(2)
         with col_tipo:
             tipo = st.selectbox("Tipo de Movimento *", ["Entrada", "Saída"])
@@ -98,17 +97,14 @@ def exibir_registro_movimento(dados, nomes_membros):
             categorias_disponiveis = CATEGORIAS_ENTRADA if tipo == "Entrada" else CATEGORIAS_SAIDA
             categoria = st.selectbox("Categoria *", categorias_disponiveis)
 
-        # Colunas 2: Valor e Data
         col_valor, col_data = st.columns(2)
         with col_valor:
             valor = st.number_input("Valor (R$)*", min_value=0.01, format="%.2f", step=0.01)
         with col_data:
             data = st.date_input("Data do Movimento *", value=date.today())
 
-        # Mês de Referência
         mes_referencia = st.selectbox("📅 Mês de Referência", MESES, index=datetime.now().month - 1)
         
-        # Dizimista (aparece apenas para Dízimo)
         dizimista = ""
         if categoria == "Dízimo" and tipo == "Entrada" and nomes_membros:
             st.markdown("---")
@@ -155,7 +151,6 @@ def exibir_historico_e_balanco(dados, nomes_membros):
     df = pd.DataFrame(dados)
     df['data'] = pd.to_datetime(df['data'])
     
-    # Filtros de Período
     st.markdown("### 🔎 Filtro de Período")
     col_inicio, col_fim = st.columns(2)
     data_min = df['data'].min().date()
@@ -166,7 +161,6 @@ def exibir_historico_e_balanco(dados, nomes_membros):
     
     dados_filtrados = df[(df['data'].dt.date >= filtro_inicio) & (df['data'].dt.date <= filtro_fim)]
     
-    # 1. Visão Geral (Métricas)
     st.markdown("---")
     st.markdown("## 📊 Visão Geral do Caixa")
 
@@ -179,13 +173,11 @@ def exibir_historico_e_balanco(dados, nomes_membros):
     col2.metric("💵 Total Saídas", f"R$ {total_saidas:,.2f}")
     col3.metric("📈 Saldo no Período", f"R$ {saldo:,.2f}", delta_color=("normal" if saldo >= 0 else "inverse"))
     
-    # 2. Balanço por Categoria (Gráficos)
     st.markdown("---")
     st.markdown("## 🧾 Balanço por Categoria")
     
     col_grafico1, col_grafico2 = st.columns(2)
     
-    # Distribuição de Entradas
     entradas_cat = dados_filtrados[dados_filtrados['tipo'] == 'Entrada'].groupby('categoria')['valor'].sum().sort_values(ascending=False)
     if not entradas_cat.empty:
         col_grafico1.markdown("#### Distribuição de Receitas")
@@ -194,7 +186,6 @@ def exibir_historico_e_balanco(dados, nomes_membros):
     else:
         col_grafico1.info("Sem Entradas no período.")
     
-    # Distribuição de Saídas
     saidas_cat = dados_filtrados[dados_filtrados['tipo'] == 'Saída'].groupby('categoria')['valor'].sum().sort_values(ascending=False)
     if not saidas_cat.empty:
         col_grafico2.markdown("#### Distribuição de Despesas")
@@ -203,14 +194,13 @@ def exibir_historico_e_balanco(dados, nomes_membros):
     else:
         col_grafico2.info("Sem Saídas no período.")
 
-    # 3. Histórico de Movimentações (Tabela de Ação)
+    # 🔹 NOVO TRECHO — lista com botões de ação por registro
     st.markdown("---")
-    st.markdown("## 📋 Histórico Detalhado (Selecionar Linha para Ação)")
+    st.markdown("## 📋 Histórico Detalhado de Movimentações")
     
-    # Botão de Exportar PDF
-    col_pdf, col_spacer = st.columns([1, 3])
+    col_pdf, _ = st.columns([1, 3])
     with col_pdf:
-         st.download_button(
+        st.download_button(
             "📥 Baixar PDF do Balanço",
             data=gerar_pdf_analise(dados_filtrados.to_dict('records')),
             file_name=f"balanco_financeiro_{filtro_inicio.strftime('%Y%m%d')}_a_{filtro_fim.strftime('%Y%m%d')}.pdf",
@@ -218,46 +208,28 @@ def exibir_historico_e_balanco(dados, nomes_membros):
             use_container_width=True
         )
 
-    # Tabela para seleção
-    dados_tabela = dados_filtrados[['data', 'tipo', 'categoria', 'valor', 'descricao', 'dizimista', 'id']].rename(columns={
-        'data': 'Data', 'tipo': 'Tipo', 'categoria': 'Categoria', 'valor': 'Valor (R$)', 'descricao': 'Descrição', 'dizimista': 'Dizimista'
-    })
-    
-    dados_tabela['Valor (R$)'] = dados_tabela['Valor (R$)'].apply(lambda x: f"R$ {x:,.2f}")
-    
-    if "edicao_financeira_id" not in st.session_state:
-        st.session_state["edicao_financeira_id"] = None
+    st.markdown("---")
+    st.write("### 💼 Registros Recentes:")
 
-    # Exibe a tabela para seleção
-    st.dataframe(
-        dados_tabela.drop(columns=['id']),
-        hide_index=True,
-        use_container_width=True,
-        on_select="rerun",
-        selection_mode="single-row" 
-    )
-    
-    # Lógica de Edição/Exclusão via seleção da linha
-    selecao = st.session_state.get('dataframe_select_rows')
-    if selecao and selecao.get('selection') and len(selecao['selection']['rows']) > 0:
-        index_selecionado = selecao['selection']['rows'][0]
-        id_selecionado = dados_filtrados.iloc[index_selecionado]['id']
-        movimento_selecionado = df[df['id'] == id_selecionado].iloc[0].to_dict()
-        
-        st.markdown("---")
-        st.markdown(f"### ⚙️ Ação: {movimento_selecionado['descricao'][:50]}...")
-        
-        col_edita, col_exclui = st.columns(2)
-        
-        if col_edita.button("✏️ Editar Movimento", key="btn_edita_mov", use_container_width=True, type="primary"):
-            st.session_state["edicao_financeira_id"] = id_selecionado
-            st.rerun()
-
-        if col_exclui.button("🗑️ Excluir Movimento", key="btn_exclui_mov", use_container_width=True, type="secondary"):
-            dados_atualizados = [d for d in dados if d["id"] != id_selecionado]
-            salvar_json(dados_atualizados, CAMINHO_FINANCEIRO)
-            st.success("Movimentação excluída com sucesso.")
-            st.rerun()
+    for mov in dados_filtrados.sort_values(by="data", ascending=False).to_dict('records'):
+        with st.expander(f"{mov['data']} | {mov['categoria']} | R$ {mov['valor']:,.2f}"):
+            st.write(f"**Tipo:** {mov['tipo']}")
+            st.write(f"**Descrição:** {mov['descricao']}")
+            if mov.get('dizimista'):
+                st.write(f"**Dizimista:** {mov['dizimista']}")
+            if mov.get('observacoes'):
+                st.write(f"**Observações:** {mov['observacoes']}")
+            st.write(f"**Registrado em:** {mov.get('registrado_em', '-')}")
+            
+            col1, col2 = st.columns(2)
+            if col1.button("✏️ Editar", key=f"edit_{mov['id']}", use_container_width=True):
+                st.session_state["edicao_financeira_id"] = mov["id"]
+                st.rerun()
+            if col2.button("🗑️ Excluir", key=f"del_{mov['id']}", use_container_width=True):
+                dados = [d for d in dados if d["id"] != mov["id"]]
+                salvar_json(dados, CAMINHO_FINANCEIRO)
+                st.success("Movimento excluído com sucesso!")
+                st.rerun()
 
 def exibir_form_edicao_historico(dados):
     """Exibe o formulário de edição para um item selecionado."""
@@ -282,18 +254,15 @@ def exibir_form_edicao_historico(dados):
 
         novo_mes = st.selectbox("📅 Mês de Referência", MESES, index=MESES.index(mov_original["mes_referencia"]))
         
-        # Lógica de dizimista para edição
         novo_dizimista = mov_original.get("dizimista", "")
         if mov_original["categoria"] == "Dízimo":
             membros = carregar_json(CAMINHO_MEMBROS)
             nomes_membros = [m["nome"] for m in membros]
-            # Encontra o índice para pré-seleção
             default_options = ["Não Identificado"] + nomes_membros
             try:
                 default_index = default_options.index(novo_dizimista) if novo_dizimista else 0
             except ValueError:
                 default_index = 0
-            
             novo_dizimista = st.selectbox("Membro Dizimista", default_options, index=default_index)
 
         nova_desc = st.text_input("Descrição*", value=mov_original["descricao"])
@@ -330,17 +299,14 @@ def exibir_form_edicao_historico(dados):
 def exibir():
     st.title("💰 Gestão Financeira da Igreja")
     
-    # Carrega dados
     dados = carregar_json(CAMINHO_FINANCEIRO)
     membros = carregar_json(CAMINHO_MEMBROS)
     nomes_membros = [m["nome"] for m in membros]
 
-    # Abas
     aba = st.radio("Selecione:", ["➕ Registrar Movimento", "📊 Balanço e Análise"], horizontal=True)
 
     st.markdown("---")
 
-    # Controla a exibição do formulário de edição
     if st.session_state.get("edicao_financeira_id"):
         exibir_form_edicao_historico(dados)
     elif aba == "➕ Registrar Movimento":
