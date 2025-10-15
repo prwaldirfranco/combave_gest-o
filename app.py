@@ -1,4 +1,6 @@
 import streamlit as st
+import login
+from login import login
 from menu import mostrar_menu
 
 st.set_page_config(page_title="Sistema Igreja", layout="wide", initial_sidebar_state="expanded")
